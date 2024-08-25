@@ -1,0 +1,41 @@
+Inicjalizacja wag w sieciach neuronowych jest kluczowym krokiem w procesie trenowania modeli. Właściwa inicjalizacja wag może przyspieszyć zbieżność modelu i pomóc uniknąć problemów związanych z gradientem (np. zanikający lub eksplodujący gradient). Oto kilka popularnych metod inicjalizacji wag:
+
+### 1. **Inicjalizacja zerowa**
+   - **Opis:** Wszystkie wagi są inicjalizowane na wartość zero.
+   - **Wady:** Powoduje, że wszystkie neurony w warstwie ukrytej są symetryczne, przez co uczą się tych samych rzeczy. To prowadzi do problemu, gdzie sieć nie jest w stanie nauczyć się niczego wartościowego.
+   - **Użycie:** Praktycznie nie jest używana do inicjalizacji wag w sieciach neuronowych.
+
+### 2. **Inicjalizacja losowa**
+   - **Opis:** Wagi są inicjalizowane za pomocą losowych wartości, często z rozkładu normalnego lub jednostajnego.
+   - **Wady:** Jeśli wartości są zbyt duże lub zbyt małe, może prowadzić do problemów z gradientami.
+   - **Użycie:** Prosta i często używana metoda, szczególnie w starszych pracach.
+
+### 3. **Inicjalizacja Xavier (Glorot)**
+   - **Opis:** Wagi są inicjalizowane z rozkładu normalnego lub jednostajnego o średniej 0 i wariancji \(\frac{2}{n_{in} + n_{out}}\), gdzie \(n_{in}\) to liczba neuronów w warstwie poprzedniej, a \(n_{out}\) to liczba neuronów w bieżącej warstwie.
+   - **Zastosowanie:** Dobrze sprawdza się w sieciach neuronowych z aktywacjami liniowymi i sigmoidowymi.
+   - **Zalety:** Pomaga w utrzymaniu gradientów w odpowiednich zakresach podczas propagacji sygnału w przód i wstecz.
+
+### 4. **Inicjalizacja He**
+   - **Opis:** Wagi są inicjalizowane z rozkładu normalnego lub jednostajnego o wariancji \(\frac{2}{n_{in}}\).
+   - **Zastosowanie:** Zaprojektowana z myślą o aktywacjach ReLU (Rectified Linear Unit) i jej wariantach.
+   - **Zalety:** Zapobiega problemowi zanikającego gradientu w głębokich sieciach, szczególnie gdy używane są funkcje aktywacji typu ReLU.
+
+### 5. **Inicjalizacja LeCun**
+   - **Opis:** Podobna do inicjalizacji He, ale wagi są inicjalizowane z wariancją \(\frac{1}{n_{in}}\).
+   - **Zastosowanie:** Często stosowana z funkcjami aktywacji typu tanh.
+
+### 6. **Inicjalizacja orthogonalna**
+   - **Opis:** Macierz wag jest inicjalizowana tak, aby była ortogonalna. Macierze ortogonalne mają tę właściwość, że zachowują normy wektorów, co może być korzystne w propagacji sygnałów przez sieć.
+   - **Zalety:** Pomaga w unikaniu problemów z degeneracją sygnałów w sieci.
+   - **Zastosowanie:** Może być używana z różnymi aktywacjami, szczególnie w głębokich sieciach.
+
+### 7. **Inicjalizacja za pomocą wartości wstępnie wytrenowanych**
+   - **Opis:** Wagi są inicjalizowane za pomocą wartości uzyskanych z modelu wstępnie wytrenowanego na podobnym zadaniu.
+   - **Zastosowanie:** Transfer learning, fine-tuning.
+   - **Zalety:** Może znacząco przyspieszyć proces uczenia, zwłaszcza gdy dostępne są duże, wcześniej wytrenowane modele.
+
+### 8. **Inicjalizacja LSUV (Layer-sequential unit-variance)**
+   - **Opis:** Kombinacja inicjalizacji ortogonalnej i normalizacji wariancji na wyjściu każdej warstwy w sieci, aby zapewnić, że wyjścia każdej warstwy mają jednostkową wariancję.
+   - **Zalety:** Pomaga w stabilizacji uczenia w głębokich sieciach neuronowych.
+
+Wybór odpowiedniej metody inicjalizacji wag zależy od architektury sieci neuronowej, użytych funkcji aktywacji oraz konkretnego problemu, jaki model ma rozwiązywać.
