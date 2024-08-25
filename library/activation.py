@@ -1,6 +1,7 @@
 import numpy as np
 import abc
-from numpy import ndarray
+from numpy import ndarray, tanh
+
 
 class ActivationFunction(abc.ABC):
     """
@@ -26,7 +27,7 @@ class ActivationFunction(abc.ABC):
         # Save output_data in every instance of child class to be able to use it in private method _compute_gradient()
         self.output_data = output_data
         self.output_data = self._compute_gradient()
-        
+
         return self.output_data
 
     @abc.abstractmethod
@@ -62,7 +63,13 @@ class LeakyReLU(ActivationFunction):
 
 
 class Tanh(ActivationFunction):
-    pass
+    """ Hiper tangens - activation function. """
+
+    def _compute_output(self):
+        return tanh(self.x)
+
+    def _compute_gradient(self):
+        return self.output_data * (1 - self.output * self.output)
 
 
 class Linear(ActivationFunction):
