@@ -8,3 +8,13 @@ def permute_data(X, y):
 
 def softmax(x, axis=None):
     return np.exp(x - logsumexp(x, axis=axis, keepdims=True))
+
+
+
+def normalize(a: np.ndarray):
+    other = 1 - a
+    return np.concatenate([a, other], axis=1)
+
+
+def unnormalize(a: np.ndarray):
+    return a[np.newaxis, 0]
