@@ -73,7 +73,13 @@ class Tanh(ActivationFunction):
 
 
 class Linear(ActivationFunction):
-    pass
+    
+    def _compute_output(self):
+        return self.x
+    
+    def _compute_gradient(self):
+        return self.output_data
+
 
 
 class Softmax(ActivationFunction):

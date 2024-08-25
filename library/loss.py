@@ -91,6 +91,6 @@ class SoftmaxCrossEntropyLoss(Loss):
         return np.sum(softmax_cross_entropy_loss) 
     
     def _compute_loss_gradient(self):
-        return (self.softmax_predicitons - self.target) 
+        return (self.softmax_predicitons - self.target) / self.prediction.shape[0]
 
 

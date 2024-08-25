@@ -5,7 +5,7 @@ from keras.datasets import mnist
 
 
 from library.neural_network import NeuralNetwork
-from library.activation import Sigmoid, Linear
+from library.activation import Sigmoid, Linear, Tanh
 from library.layers import Dense
 from library.loss import MeanSquaredError, SoftmaxCrossEntropyLoss
 from library.trainer import Trainer
@@ -37,13 +37,23 @@ def calc_accuracy_model(model, test_set):
 
 
 
+# model_1
+# model = NeuralNetwork(
+#     layers=[Dense(neurons=89,
+#                    activation=Sigmoid()),
+#             Dense(neurons=10,
+#                    activation=Sigmoid())],
+#     loss=MeanSquaredError(),
+#     seed=20190501
+# )
 
+# model_2
 model = NeuralNetwork(
     layers=[Dense(neurons=89,
-                   activation=Sigmoid()),
+                   activation=Tanh()),
             Dense(neurons=10,
-                   activation=Sigmoid())],
-    loss=MeanSquaredError(),
+                   activation=Linear())],
+    loss=SoftmaxCrossEntropyLoss(),
     seed=20190501
 )
 
