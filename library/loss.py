@@ -71,6 +71,26 @@ class BinaryCrossEntropyLoss(Loss):
 
 
 class SoftmaxCrossEntropyLoss(Loss):
-    pass
+    def __init__(self, eps: float = 1e-9) -> None:
+        super().__init__()
+        self.eps = eps
+        self.single_output = False
+    
+    def _compute_loss(self):
+        softmax_predicitons = softmax(self.prediction, axis=1)
+
+        # clipping the softmax output to prevent numeric instability
+        self.softmax_predicitons = np.clip(softmax_predicitons, self.eps, 1 - self.eps)
+
+        # actual loss computation
+        softmax_cross_entropy_loss = (
+            -1.0 * self.target * np.log(self.softmax_predicitons) - \
+                (1.0 - self.target) * np.log(1 - self.softmax_predicitons)
+        )
+
+        return np.sum(softmax_cross_entropy_loss) 
+    
+    def _compute_loss_gradient(self):
+        return (self.softmax_predicitons - self.target) 
 
 
