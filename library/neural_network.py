@@ -12,9 +12,9 @@ class NeuralNetwork:
 
     def __init__(self, layers: list[Layer], loss: Loss, seed: int = 1) -> None:
         """
-        :param: layers - list of layers
-        :param: loss - function, which enables us to compute loss/cost of neural network.
-        :param: seed - seed to initialize parameters
+        :param layers: - list of layers
+        :param loss: - function, which enables us to compute loss/cost of neural network.
+        :param seed: - seed to initialize parameters
         :return: nothing
         """
         self.layers = layers
@@ -25,8 +25,8 @@ class NeuralNetwork:
         """ 
         Computes calculation of appling operations and passing forward results and in the end returning predictions 
         
-        :param: input_data - outdoor data from datasets
-        :return: predicitons - from our Neural Network
+        :param input_data: - outdoor data from datasets
+        :return predicitons: - from our Neural Network
         """
 
         self.input_to_pass = input_data

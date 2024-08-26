@@ -8,16 +8,16 @@ class Loss(abc.ABC):
     """
     Parent class representing different how we compute loss/cost of Neural Network.
 
-    :param: self.loss_value - float - 
-    :param: self.loss_gradient - ndarray
+    :param self.loss_value: - float - 
+    :param self.loss_gradient: - ndarray
     """
     
     def feedforward(self, prediction: ndarray, target: ndarray) -> float:
         """
         Computing loss/cost.
         
-        :param: prediciton - ndarray containing the results - activations from the last layer (output layer)
-        :param: target - ndarray containing expectations of what we want
+        :param prediciton: - ndarray containing the results - activations from the last layer (output layer)
+        :param target: - ndarray containing expectations of what we want
         :return: float number representing how far we are from our target
         """
 

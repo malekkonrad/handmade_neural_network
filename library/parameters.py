@@ -57,7 +57,7 @@ class WeightedInput:
 
     def __init__(self, parameters: list[ndarray]) -> None:
         """
-        :param: parameters - list of numpy's arrays, where parameters[0] - array of weight, parameters[1] - array of biases.
+        :param parameters: - list of numpy's arrays, where parameters[0] - array of weight, parameters[1] - array of biases.
         """
         self.parameters: list[ndarray] = parameters
         self.parameters_gradients: list[ndarray] = []
@@ -74,7 +74,7 @@ class WeightedInput:
         """ 
         Computes needed gradients for weights and biases.
          
-        :param: error - actual error in the layer
+        :param error: - actual error in the layer
         """
 
         # Compute gradients for weights -> delta Cost/ delta weights = activation_from_previous_layer * actual_error        where activation_from_previous_layer is self.input_data

@@ -11,11 +11,11 @@ class Layer(abc.ABC):
     """
     Layer Prototype.
 
-    :param: self.neurons - int - how many neurons layer has
-    :param: self.activation - callable - variable contating activation function of specific layer
-    :param: self.parameters - list[ndarray] - list containing two ndarrays - Weights and Biases
-    :param: self.parameters_gradients - sss - sssss
-    :param: first_activation - bool - variable, that enables us to identify if we need to setup layer or not
+    :param self.neurons: - int - how many neurons layer has
+    :param self.activation: - callable - variable contating activation function of specific layer
+    :param self.parameters: - list[ndarray] - list containing two ndarrays - Weights and Biases
+    :param self.parameters_gradients: - sss - sssss
+    :param first_activation: - bool - variable, that enables us to identify if we need to setup layer or not
     """
 
     def __init__(self, neurons: int, activation: ActivationFunction = Sigmoid) -> None:
@@ -30,7 +30,7 @@ class Layer(abc.ABC):
         """
         Method, which computes A^(l) = act_fun(W*A^(l-1) + B)
 
-        :param: - actual ndarray of computing data
+        :param input_data: - actual ndarray of computing data
         :return: - ndarray containing data after computing weighted input and putting it in activation data - transferring to next layer.
         """
 
@@ -47,7 +47,7 @@ class Layer(abc.ABC):
         Method which takes error (delta = ( delta Loss/ delta avtivation ) * activation_prime( weighted_input )) from previous layer 
         and computes gradients from parameters in current layer and error that will be passed to next layer and so on.
 
-        :param: output_data - error from previous layer, necesery to compute gradients of parameters
+        :param output_data:  - error from previous layer, necesery to compute gradients of parameters
         :return: ndarray of error
         """
         # save for use in private method _compute_gradients()
