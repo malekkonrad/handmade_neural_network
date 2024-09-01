@@ -65,3 +65,7 @@ class NeuralNetwork:
     def parameters_gradients(self):
         for layer in self.layers:
             yield from layer.parameters_gradients
+
+    def predict(self, data: ndarray):
+        predicitions = self.feedforward(data)
+        return predicitions

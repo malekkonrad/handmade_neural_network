@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.special import logsumexp
-
+import matplotlib.pyplot as plt
 
 def permute_data(X, y):
     perm = np.random.permutation(X.shape[0])
@@ -18,3 +18,11 @@ def normalize(a: np.ndarray):
 
 def unnormalize(a: np.ndarray):
     return a[np.newaxis, 0]
+
+
+def plot_digit(image_data):
+    image = image_data.reshape(28,28)
+    plt.imshow(image, cmap='binary')
+    plt.axis('off')
+    plt.show()
+
