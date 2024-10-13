@@ -2,7 +2,7 @@
 import numpy as np
 from keras.datasets import mnist
 import matplotlib.pyplot as plt
-
+import pickle
 
 from library.neural_network import NeuralNetwork
 from library.activation import Sigmoid, Linear, Tanh
@@ -14,24 +14,31 @@ from library.optimizer import SGD
 from library.help_functions import plot_digit, softmax
 
 
-(X_train, y_train), (X_test, y_test) = mnist.load_data()
-X_train, X_test = X_train - np.mean(X_train), X_test - np.mean(X_train)
-
-# Normalizacja danych
-X_train = X_train / 255.0
-X_test = X_test / 255.0
-
-# Przekształcanie danych do formatu 2D
-X_train = X_train.reshape(X_train.shape[0], -1)
-X_test = X_test.reshape(X_test.shape[0], -1)
-
-# One-hot encoding etykiet
-num_classes = 10
-y_train = np.eye(num_classes)[y_train]
-y_test = np.eye(num_classes)[y_test]
 
 
 
+def load_mnist_data():
+    (X_train, y_train), (X_test, y_test) = mnist.load_data()
+    X_train, X_test = X_train - np.mean(X_train), X_test - np.mean(X_train)
+
+    # Normalizacja danych
+    X_train = X_train / 255.0
+    X_test = X_test / 255.0
+
+    # Przekształcanie danych do formatu 2D
+    X_train = X_train.reshape(X_train.shape[0], -1)
+    X_test = X_test.reshape(X_test.shape[0], -1)
+
+    # One-hot encoding etykiet
+    num_classes = 10
+    y_train = np.eye(num_classes)[y_train]
+    y_test = np.eye(num_classes)[y_test]
+
+    return (X_train, y_train), (X_test, y_test)
+
+
+
+(X_train, y_train), (X_test, y_test) = load_mnist_data()
 
 def calc_accuracy_model(model, test_set):
     return print(f'''The model validation accuracy is: {np.equal(np.argmax(model.feedforward(test_set), axis=1), np.argmax(y_test, axis=1)).sum() * 100.0 / test_set.shape[0]:.2f}%''')
@@ -39,34 +46,44 @@ def calc_accuracy_model(model, test_set):
 
 
 # model_1
-# model = NeuralNetwork(
-#     layers=[Dense(neurons=89,
-#                    activation=Sigmoid()),
-#             Dense(neurons=10,
-#                    activation=Sigmoid())],
-#     loss=MeanSquaredError(),
-#     seed=20190501
-# )
+def model_1():
+    model = NeuralNetwork(
+        layers=[Dense(neurons=89,
+                    activation=Sigmoid()),
+                Dense(neurons=10,
+                    activation=Sigmoid())],
+        loss=MeanSquaredError(),
+        seed=20190501
+    )
+    return model
 
 # model_2
-# model = NeuralNetwork(
-#     layers=[Dense(neurons=89,
-#                    activation=Tanh()),
-#             Dense(neurons=10,
-#                    activation=Linear())],
-#     loss=SoftmaxCrossEntropyLoss(),
-#     seed=20190501
-# )
+def model_2():
+    model = NeuralNetwork(
+        layers=[Dense(neurons=89,
+                    activation=Tanh()),
+                Dense(neurons=10,
+                    activation=Linear())],
+        loss=SoftmaxCrossEntropyLoss(),
+        seed=20190501
+    )
+    return model
 
 
 # model_3
-# model = NeuralNetwork(
-#     layers=[Dense(neurons=784, activation=Tanh()),
-#             Dense(neurons=89, activation=Tanh()), 
-#             Dense(neurons=10, activation=Linear())],
-#     loss=SoftmaxCrossEntropyLoss(),
-#     seed=20190501
-# )
+def model_3():
+    model = NeuralNetwork(
+        layers=[Dense(neurons=784,
+                    activation=Tanh()),
+                Dense(neurons=89,
+                    activation=Tanh()), 
+                Dense(neurons=10,
+                    activation=Linear())],
+        loss=SoftmaxCrossEntropyLoss(),
+        seed=20190501
+    )
+    return model
+
 
 
 # # # Trener
@@ -86,20 +103,41 @@ def calc_accuracy_model(model, test_set):
 
 
 """saving """
-import pickle
-# with open('model_1.pkl', 'wb') as file:
+
+# with open('saved_models/model_1.pkl', 'wb') as file:
 #     pickle.dump(model, file)
 
 # print(y_train[0])
 
 
 """loading module"""
-with open('model_1.pkl', 'rb') as file:
-    model = pickle.load(file)
+# with open('saved_models/model_1.pkl', 'rb') as file:
+#     model = pickle.load(file)
 
 
 
-
+def load_or_train_model():
+    try:
+        with open('saved_models/model_1.pkl', 'rb') as file:
+            model = pickle.load(file)
+    except:
+        model = NeuralNetwork(
+            layers=[Dense(neurons=89,
+                        activation=Sigmoid()),
+                    Dense(neurons=10,
+                        activation=Sigmoid())],
+            loss=MeanSquaredError(),
+            seed=20190501
+        )
+        trainer = Trainer(model, SGD(0.1))
+        trainer.fit(X_train, y_train, X_test, y_test,
+                    epochs=50,
+                    eval_every=10,
+                    seed=20190119,
+                    batch_size=60)
+        with open('saved_models/model_1.pkl', 'wb') as file:
+            pickle.dump(model, file)
+    return model
 
 
 
@@ -107,6 +145,7 @@ with open('model_1.pkl', 'rb') as file:
 import numpy as np
 from PIL import Image
 
+model = load_or_train_model()
 
 
 def predict():
